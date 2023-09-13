@@ -1,0 +1,10 @@
+
+#signup-form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#signup-form > *, #signup-form input{
+    border-radius: 0;
+}
