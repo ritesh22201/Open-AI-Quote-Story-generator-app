@@ -6,13 +6,14 @@ import '../styles.css';
 import { Dispatch } from 'react';
 import { useDispatch, useSelector } from 'react-redux/es/exports';
 import { PayloadType, signup } from '../Redux/authReducer/action';
+import Loader from '../Components/Loader';
 
 const Signup = () => {
     const [inputType, setInputType] = useState<boolean>(false);
     const dispatch: Dispatch<any> = useDispatch();
     const toast = useToast();
     const navigate = useNavigate();
-    const {isRegistered, registerErr} = useSelector((store:any) => store.authReducer);
+    const { isRegistered, registerErr, isLoading } = useSelector((store: any) => store.authReducer);
     const [formDetails, setFormDetails] = useState<PayloadType>({
         name: '',
         email: '',
@@ -70,14 +71,14 @@ const Signup = () => {
     }
 
     useEffect(() => {
-        if(isRegistered){
+        if (isRegistered) {
             toast({
-                title : 'Success',
-                description : isRegistered,
-                status : 'success',
-                isClosable : true,
-                duration : 4000,
-                position : 'top'
+                title: 'Success',
+                description: isRegistered,
+                status: 'success',
+                isClosable: true,
+                duration: 4000,
+                position: 'top'
             })
 
             setTimeout(() => {
@@ -85,21 +86,21 @@ const Signup = () => {
                 window.location.reload();
             }, 4000)
         }
-        else if(registerErr){
+        else if (registerErr) {
             toast({
-                title : 'Failed!',
-                description : registerErr,
-                status : 'error',
-                isClosable : true,
-                duration : 4000,
-                position : 'top'
+                title: 'Failed!',
+                description: registerErr,
+                status: 'error',
+                isClosable: true,
+                duration: 4000,
+                position: 'top'
             })
         }
     }, [isRegistered, registerErr])
 
     return (
-        <Box w={'25%'} m={'auto'} mt={'90px'}>
-            <form onSubmit={handleSubmit} id='signup-form'>
+        <Box w={{ base: '90%', sm: '90%', md: '65%', lg: '25%', xl: '25%', '2xl': '25%' }} m={'auto'} mt={'90px'}>
+            {isLoading ? <Loader /> : <form onSubmit={handleSubmit} id='signup-form'>
                 <Heading mb={'10px'} size={'lg'}>Create your account</Heading>
                 <Input name='name' value={formDetails.name} onChange={(e) => handleChange(e)} ref={nameInputRef} onFocus={() => handleFocus('name')} onBlur={handleBlur} borderColor={focusedInput === 'name' ? 'red.500' : 'gray.200'} p={'27px 15px'} borderRadius={'5px'} focusBorderColor={focusedInput === 'name' && formDetails.name.length === 0 ? 'red.500' : 'gray.200'} type='text' placeholder={focusedInput === 'name' ? 'This field is required' : 'Name'} />
                 <Input name='email' value={formDetails.email} onChange={(e) => handleChange(e)} ref={emailInputRef} onFocus={() => handleFocus('email')} onBlur={handleBlur} borderColor={focusedInput === 'email' ? 'red.500' : 'gray.200'} p={'27px 15px'} borderRadius={'5px'} focusBorderColor={focusedInput === 'email' && formDetails.email.length === 0 ? 'red.500' : 'gray.200'} type='email' placeholder={focusedInput === 'email' ? 'This field is required' : 'Email'} />
@@ -115,7 +116,7 @@ const Signup = () => {
                     <Text>Already have an account?</Text>
                     <Link style={{ textDecoration: 'underline', color: 'purple' }} to={'/login'}>Login</Link>
                 </Flex>
-            </form>
+            </form>}
         </Box>
     )
 }

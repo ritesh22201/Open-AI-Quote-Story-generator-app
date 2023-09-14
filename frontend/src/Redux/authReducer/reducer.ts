@@ -1,6 +1,6 @@
 import { AUTH_REQ, AUTH_REQ_FAILURE, AUTH_REQ_SUCCESS, LOGIN_REQ_SUCCESS } from "./actionTypes";
 
-interface ActionType {
+export interface ActionType {
     type : string;
     payload : any;
 }
